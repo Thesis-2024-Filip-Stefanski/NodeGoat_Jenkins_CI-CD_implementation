@@ -1,7 +1,10 @@
 pipeline {
     agent {
-        dockerContainer { image 'node:20-alpine' }
+    docker {
+        image 'node:20-alpine'
+        args '-u 0'
     }
+}
     
     triggers {
         pollSCM '* * * * *'
