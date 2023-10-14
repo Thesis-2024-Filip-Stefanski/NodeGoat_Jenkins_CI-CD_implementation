@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:18.18.0-alpine3.18' }
+    }
     
     triggers {
         pollSCM '* * * * *'
@@ -8,6 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building.."
+                sh 'node --version'
                 docker network create mynetwork
                 docker-compose build
                 docker-compose up --detach 
