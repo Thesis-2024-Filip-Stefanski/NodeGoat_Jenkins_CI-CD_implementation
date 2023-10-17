@@ -10,7 +10,6 @@ pipeline {
       steps {
         sh 'ls'
         sh 'pwd'
-        sh 'whoami'
         sh 'docker ps'
         sh 'docker network create mynetwork'
         sh 'docker-compose build'
