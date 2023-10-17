@@ -6,7 +6,7 @@ pipeline {
         docker { image 'docker:latest' }
       }
       steps {
-        sh 'mvn --version'
+        sh 'docker run hello-world'
       }
     }
     stage('Front-end') {
