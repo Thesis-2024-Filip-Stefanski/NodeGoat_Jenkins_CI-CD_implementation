@@ -42,6 +42,8 @@ pipeline {
            docker exec -i OWASPZAP pwd
            docker cp OWASPZAP:/zap/ZAP_REPORT.html .
            docker cp OWASPZAP:/zap/ZAP_ALERT_REPORT.md .
+           pwd 
+           ls 
            '''
       }
     }
