@@ -1,12 +1,15 @@
 pipeline {
   agent {
-    docker { image 'ubuntu:latest' }
+    docker none
   }
   triggers {
     pollSCM '* * * * *'
   }
   stages {
     stage('Build') {
+        agent {
+          docker { image 'docker:latest' }
+      }
       steps {
         sh 'ls'
         sh 'pwd'
