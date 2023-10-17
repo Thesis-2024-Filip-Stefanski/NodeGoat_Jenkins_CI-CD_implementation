@@ -15,8 +15,8 @@ pipeline {
           docker-compose build
           docker-compose up --detach 
           docker ps 
-          docker network connect mynetwork test_mongo_1
-          docker network connect mynetwork test_web_1
+          docker network connect mynetwork jenkins_docker-compose_application_mongo_1
+          docker network connect mynetwork jenkins_docker-compose_application_web_1
           docker network inspect mynetwork
           '''
       }
@@ -40,13 +40,17 @@ pipeline {
            docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/normal_scann_no_fail_on_warning.yaml
            docker exec OWASPZAP sh -c ls
            docker exec -i OWASPZAP pwd
-           docker cp OWASPZAP:/zap/ZAP_REPORT.html .
-           docker cp OWASPZAP:/zap/ZAP_ALERT_REPORT.md .
-           pwd 
-           ls 
            '''
       }
     }
+    stage('Export reports'){
+      steps{
+        sh '''
+        pwd
+        docker cp OWASPZAP:/zap/ZAP_REPORT.html .
+        docker cp OWASPZAP:/zap/ZAP_ALERT_REPORT.md .
+        '''
+      }
   }
   post {
     always{
