@@ -1,22 +1,36 @@
 pipeline {
   agent any
   stages {
-    stage('Back-end') {
+    stage('Prune Docker data'){
+      steps{
+        sh 'docker system prune -a --volumes -f'
+      }
+    }
+    stage('Build') {
       steps {
         sh '''
-          docker version
-          docker info
-          docker ps
+          docker network create mynetwork
+          docker-compose build
+          docker-compose up --detach 
+          docker ps 
+          docker network connect mynetwork docker-compose_application_web_1
+          docker network connect mynetwork docker-compose_application_mongo_1
+          docker network inspect mynetwork
           '''
       }
     }
-    stage('Front-end') {
+    stage('Test') {
       agent {
         docker { image 'node:16-alpine' }
       }
       steps {
         sh 'node --version'
       }
+    }
+  }
+  post {
+    always{
+      sh 'docker system prune -a --volumes -f'
     }
   }
 }
