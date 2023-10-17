@@ -4,8 +4,6 @@ pipeline {
     stage('Prune Docker data'){
       steps{
         sh '''
-        docker ps -f name=zookeeper -q | xargs --no-run-if-empty docker container stop
-        docker container ls -a -fname=zookeeper -q | xargs -r docker container rm
         docker system prune -a --volumes -f
         '''
       }
