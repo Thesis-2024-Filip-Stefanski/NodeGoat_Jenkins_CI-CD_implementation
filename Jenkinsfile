@@ -11,7 +11,6 @@ pipeline {
       steps {
         sh 'ls'
         sh 'pwd'
-        sh 'service docker restart'
         sh 'docker ps'
         sh 'docker network create mynetwork'
         sh 'docker-compose build'
