@@ -1,22 +1,22 @@
 pipeline {
-    agent {
-    dockerContainer {
-        image 'node:20-alpine'
-    }
-}
-    
-    triggers {
+   agent any
+   triggers {
         pollSCM '* * * * *'
     }
     stages {
         stage('Build') {
+            agent {
+                docker { image 'maven:3.8.1-adoptopenjdk-11' }
+              }
             steps {
                 echo "Building.."
-                sh 'node --version'
-                
+                sh 'node --version' 
             }
         }
         stage('Test') {
+            agent {
+                docker { image 'maven:3.8.1-adoptopenjdk-11' }
+              }
             steps {
                 echo "Testing.."
                 sh '''
@@ -27,6 +27,9 @@ pipeline {
             }
         }
         stage('Deliver') {
+            agent {
+                docker { image 'maven:3.8.1-adoptopenjdk-11' }
+              }
             steps {
                 echo 'Deliver....'
                 sh '''
