@@ -11,7 +11,7 @@ pipeline {
         script {
           dockerImage = docker.build("docker:latest")
           dockerImage.inside{
-            sh 'docker ps'
+            sh 'docker run hello-world'
           }
         }
         sh 'ls'
