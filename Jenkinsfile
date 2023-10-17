@@ -11,6 +11,7 @@ pipeline {
         sh 'ls'
         sh 'pwd'
         sh 'whoami'
+        sh 'docker ps'
         sh 'docker network create mynetwork'
         sh 'docker-compose build'
         sh 'docker-compose up --detach '
