@@ -10,9 +10,9 @@ pipeline {
       steps {
         script {
           dockerImage = docker.build("docker:latest")
-        }
-        dockerImage.inside{
-          sh 'docker ps'
+          dockerImage.inside{
+            sh 'docker ps'
+          }
         }
         sh 'ls'
         sh 'pwd'
