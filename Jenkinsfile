@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    docker none
+     none
   }
   triggers {
     pollSCM '* * * * *'
