@@ -43,6 +43,7 @@ pipeline {
            '''
       }
     }
+  }
   post {
     always{
       sh 'docker system prune -a --volumes -f'
