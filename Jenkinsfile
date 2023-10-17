@@ -1,28 +1,20 @@
 pipeline {
   agent none
-  
-  triggers {
-    pollSCM '* * * * *'
-  }
   stages {
-    stage('Build') {
-        agent {
+    stage('Back-end') {
+      agent {
         docker { image 'docker:latest' }
       }
-        sh 'ls'
-        sh 'pwd'
-        sh 'docker ps'
-        sh 'docker network create mynetwork'
-        sh 'docker-compose build'
-        sh 'docker-compose up --detach '
-        sh 'docker ps '
-        sh 'docker network connect mynetwork docker-compose_application_web_1'
-        sh 'docker network connect mynetwork docker-compose_application_mongo_1'
-        sh 'docker network inspect mynetwork'
-      }
-    stage('Test') {
       steps {
-        sh 'docker ps'
+        sh 'mvn --version'
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
+      steps {
+        sh 'node --version'
       }
     }
   }
