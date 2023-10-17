@@ -1,23 +1,23 @@
 pipeline {
-  agent none
+  agent {image 'ubuntu:latest}
   triggers {
     pollSCM '* * * * *'
   }
   stages {
     stage('Build') {
-      agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
-      }
       steps {
-        sh 'mvn --version'
+        docker network create mynetwork
+        docker-compose build
+        docker-compose up --detach 
+        docker ps 
+        docker network connect mynetwork docker-compose_application_web_1
+        docker network connect mynetwork docker-compose_application_mongo_1
+        docker network inspect mynetwork
       }
     }
     stage('Test') {
-      agent {
-        docker { image 'node:16-alpine' }
-      }
       steps {
-        sh 'node --version'
+        docker ps
       }
     }
   }
