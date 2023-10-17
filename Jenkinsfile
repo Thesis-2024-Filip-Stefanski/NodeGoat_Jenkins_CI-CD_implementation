@@ -1,5 +1,7 @@
 pipeline {
-  agent {image 'ubuntu:latest'}
+  agent {
+    docker { image 'ubuntu:latest' }
+  }
   triggers {
     pollSCM '* * * * *'
   }
