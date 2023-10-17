@@ -51,6 +51,7 @@ pipeline {
         docker cp OWASPZAP:/zap/ZAP_ALERT_REPORT.md .
         '''
       }
+    }
   }
   post {
     always{
