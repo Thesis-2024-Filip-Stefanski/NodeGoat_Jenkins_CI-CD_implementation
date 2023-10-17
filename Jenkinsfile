@@ -1,12 +1,12 @@
 pipeline {
-  agent none
+  agent any
   stages {
     stage('Back-end') {
-      agent {
-        docker { image 'docker:latest' }
-      }
       steps {
-        sh 'docker run hello-world'
+        sh '''
+          docker version
+          docker info
+          '''
       }
     }
     stage('Front-end') {
