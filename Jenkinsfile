@@ -1,8 +1,18 @@
 pipeline {
   agent none
+  
   triggers {
     pollSCM '* * * * *'
   }
+  node {
+    checkout scm
+
+    def customImage = docker.build("docker:latest")
+
+    customImage.inside {
+        sh 'echo "test"'
+    }
+}
   stages {
     stage('Build') {
         agent {
