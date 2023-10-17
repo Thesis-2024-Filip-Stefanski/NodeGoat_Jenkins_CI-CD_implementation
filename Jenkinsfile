@@ -8,6 +8,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        sh 'ls'
+        sh 'pwd'
+        sh 'whoami'
         sh 'docker network create mynetwork'
         sh 'docker-compose build'
         sh 'docker-compose up --detach '
