@@ -10,7 +10,7 @@ pipeline {
       steps {
         sh 'ls'
         sh 'pwd'
-        sh 'sdockerd'
+        sh 'dockerd'
         sh 'docker ps'
         sh 'docker network create mynetwork'
         sh 'docker-compose build'
