@@ -20,10 +20,10 @@ pipeline {
         sh 'docker network connect mynetwork docker-compose_application_mongo_1'
         sh 'docker network inspect mynetwork'
       }
-    }
     stage('Test') {
       steps {
         sh 'docker ps'
       }
     }
   }
+}
