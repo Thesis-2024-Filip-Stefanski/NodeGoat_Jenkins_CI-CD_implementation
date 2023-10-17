@@ -6,14 +6,9 @@ pipeline {
   }
   stages {
     stage('Build') {
-        agent any
-      steps {
-        script {
-          dockerImage = docker.build("docker:latest")
-          dockerImage.inside{
-            sh 'docker run hello-world'
-          }
-        }
+        agent {
+        docker { image 'docker:latest' }
+      }
         sh 'ls'
         sh 'pwd'
         sh 'docker ps'
