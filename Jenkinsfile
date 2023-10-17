@@ -1,7 +1,10 @@
 pipeline {
   agent none
+  triggers {
+    pollSCM '* * * * *'
+  }
   stages {
-    stage('Back-end') {
+    stage('Build') {
       agent {
         docker { image 'maven:3.8.1-adoptopenjdk-11' }
       }
@@ -9,7 +12,7 @@ pipeline {
         sh 'mvn --version'
       }
     }
-    stage('Front-end') {
+    stage('Test') {
       agent {
         docker { image 'node:16-alpine' }
       }
