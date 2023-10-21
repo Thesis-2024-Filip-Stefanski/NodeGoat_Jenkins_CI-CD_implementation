@@ -3,9 +3,18 @@ pipeline {
   stages {
     stage('Prune Docker data'){
       steps{
-        sh '''
-        docker system prune -a --volumes -f
-        '''
+        script{
+          try{ 
+            sh 'docker stop $(docker ps -aq)'
+          } catch (err){
+            echo "Caught: ${err}"
+          }
+          sh '''       
+          docker system prune -a --volumes -f
+          '''
+          }
+        }
+      }
       }
     }
     stage('Build') {
@@ -55,7 +64,7 @@ pipeline {
   }
   post {
     always{
-      sh 'docker system prune -a --volumes -f'
+      archiveArtifacts artifacts: '/var/lib/jenkins/workspace/jenkins_docker-compose_application/ZAP_REPORT.html', '/var/lib/jenkins/workspace/jenkins_docker-compose_application/ZAP_ALERT_REPORT.md'
     }
   }
 }
