@@ -62,7 +62,7 @@ pipeline {
   }
   post {
     always{
-      archiveArtifacts artifacts: '/var/lib/jenkins/workspace/jenkins_docker-compose_application/ZAP_REPORT.html', '/var/lib/jenkins/workspace/jenkins_docker-compose_application/ZAP_ALERT_REPORT.md'
+      archiveArtifacts artifacts: '/var/lib/jenkins/workspace/jenkins_docker-compose_application/ZAP_*'
     }
   }
 }
