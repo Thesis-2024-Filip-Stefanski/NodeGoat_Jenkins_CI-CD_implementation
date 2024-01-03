@@ -38,13 +38,13 @@ pipeline {
     }
     stage('Copy files to OWASP ZAP'){
       steps{
-        sh 'docker cp OWASPZAP_scanns/normal_scann_no_fail_on_warning.yaml OWASPZAP:/zap/normal_scann_no_fail_on_warning.yaml'
+        sh 'docker cp OWASPZAP_scanns/NodeGoat_baseline.yaml OWASPZAP:/zap/NodeGoat_baseline.yaml'
       }
     }
     stage('Execute the scan'){
       steps{
            sh '''
-           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/normal_scann_no_fail_on_warning.yaml
+           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_baseline.yaml
            docker exec OWASPZAP sh -c ls
            docker exec -i OWASPZAP pwd
            '''
