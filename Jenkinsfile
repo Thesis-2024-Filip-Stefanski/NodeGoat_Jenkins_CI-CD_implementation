@@ -38,13 +38,13 @@ pipeline {
     }
     stage('Copy files to OWASP ZAP'){
       steps{
-        sh 'docker cp OWASPZAP_scanns/NodeGoat_full.yaml OWASPZAP:/zap/NodeGoat_full.yaml'
+        sh 'docker cp OWASPZAP_scanns/NodeGoat_custom1.yaml OWASPZAP:/zap/NodeGoat_custom1.yaml'
       }
     }
     stage('Execute the scan'){
       steps{
            sh '''
-           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_full.yaml
+           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_custom1.yaml
            docker exec OWASPZAP sh -c ls
            docker exec -i OWASPZAP pwd
            '''
