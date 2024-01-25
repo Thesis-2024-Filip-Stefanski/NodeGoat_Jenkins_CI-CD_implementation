@@ -21,7 +21,7 @@ pipeline {
           echo $JOB_BASE_NAME
           docker network create mynetwork
           docker-compose build
-          docker-compose --project-name $JOB_BASE_NAME up -d --detach 
+          docker-compose up --project-name $JOB_BASE_NAME --detach 
           docker ps 
           docker network connect mynetwork jenkins_docker-compose_application_mongo_1
           docker network connect mynetwork jenkins_docker-compose_application_web_1
