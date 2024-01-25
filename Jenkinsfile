@@ -21,10 +21,8 @@ pipeline {
           docker network create test_network
           docker-compose build
           docker-compose up --detach 
-          docker ps 
           docker network connect test_network $JOB_BASE_NAME'_mongo_1'
           docker network connect test_network $JOB_BASE_NAME'_web_1'
-          docker network inspect test_network
           '''
       }
     }
@@ -32,7 +30,6 @@ pipeline {
       steps {
         sh '''
         docker run -d -i -t --network=test_network --name OWASPZAP -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable
-        docker ps
         '''
       }
     }
@@ -45,8 +42,6 @@ pipeline {
       steps{
            sh '''
            docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_full.yaml
-           docker exec OWASPZAP sh -c ls
-           docker exec -i OWASPZAP pwd
            '''
       }
     }
