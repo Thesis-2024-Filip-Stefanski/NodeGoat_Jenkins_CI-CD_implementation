@@ -18,35 +18,33 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-          echo $JOB_BASE_NAME
-          docker-compose --project-name $JOB_BASE_NAME 
-          docker network create mynetwork
+          docker network create test_network
           docker-compose build
           docker-compose up --detach 
           docker ps 
-          docker network connect mynetwork jenkins_docker-compose_application_mongo_1
-          docker network connect mynetwork jenkins_docker-compose_application_web_1
-          docker network inspect mynetwork
+          docker network connect test_network $JOB_BASE_NAME'_mongo_1'
+          docker network connect test_network $JOB_BASE_NAME'_web_1'
+          docker network inspect test_network
           '''
       }
     }
     stage('Start OWASP ZAP') {
       steps {
         sh '''
-        docker run -d -i -t --network=mynetwork --name OWASPZAP -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable
+        docker run -d -i -t --network=test_network --name OWASPZAP -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable
         docker ps
         '''
       }
     }
     stage('Copy files to OWASP ZAP'){
       steps{
-        sh 'docker cp OWASPZAP_scanns/NodeGoat_custom1.yaml OWASPZAP:/zap/NodeGoat_custom1.yaml'
+        sh 'docker cp OWASPZAP_scanns/NodeGoat_custom1.yaml OWASPZAP:/zap/NodeGoat_full.yaml'
       }
     }
     stage('Execute the scan'){
       steps{
            sh '''
-           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_custom1.yaml
+           docker exec -i OWASPZAP zap.sh -cmd -autorun /zap/NodeGoat_full.yaml
            docker exec OWASPZAP sh -c ls
            docker exec -i OWASPZAP pwd
            '''
